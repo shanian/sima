@@ -7,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import com.impactanalysis.smart.supports.SortHashMapOnValue;
+
  public class TfIdfMain {
     
     /**
@@ -25,7 +27,8 @@ import org.xml.sax.SAXException;
     	// this is an example for finding similar stories to EJS-163.
 	  
     	String storiesFile="C:\\folderToIndex\\training.xml";
-    	String newStory="EJS-163";
+    	String newStory="EJS-275";
+    	
 	  /*
 	   if (args.length >0) {
 		  
@@ -53,10 +56,12 @@ import org.xml.sax.SAXException;
         TfIdf tfidf=new TfIdf();
         CosineSimilarity cs= new CosineSimilarity();
         
-        dp.extractJiraStories("C:\\folderToIndex\\training.xml");
+        dp.extractJiraStories(storiesFile);
         tfidf.tfIdfCalculator(dp.getJiraStoryNumbers(), dp.getAllTerms(), dp.getTokenizedjiraStory());
-        cs.getCosineSimilarity("EJS-163", dp.getJiraStoryNumbers(), tfidf.getTfidfDocsVector());
-	           
+        cs.getCosineSimilarity(newStory, dp.getJiraStoryNumbers(), tfidf.getTfidfDocsVector());
+        SortHashMapOnValue.printHashMap(SortHashMapOnValue.sortByComparator(cs.getCosinSimilarityValue()), 0, 4);
+        
+        
     }
       
 }

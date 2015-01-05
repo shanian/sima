@@ -76,7 +76,7 @@ public class DocumentParser {
 		stopwords.add("who"); stopwords.add("will"); stopwords.add("with");
 		stopwords.add("and"); stopwords.add("the"); stopwords.add("www");
 		stopwords.add("AC1"); stopwords.add("p"); stopwords.add("tt"); stopwords.add("br");
-		stopwords.add("AC2"); 		stopwords.add("AC\\d+"); stopwords.add("li"); stopwords.add("ul");
+		stopwords.add("AC2"); stopwords.add("AC\\d+"); stopwords.add("li"); stopwords.add("ul");
 
 	}
 	
@@ -162,7 +162,7 @@ public class DocumentParser {
 			String[] tokenizedTerms= pairs.getValue().toString().toString().replaceAll("%20", "").split("[^\\w-]+");   //to get individual terms
 
 
-			//    	String[] tokenizedTerms= pairs.getValue().toString().toString().replaceAll("[\\W&&[^\\s]]", "").split("\\W+");   //to get individual terms
+			// String[] tokenizedTerms= pairs.getValue().toString().toString().replaceAll("[\\W&&[^\\s]]", "").split("\\W+");   //to get individual terms
 
 			ArrayList<String> tokenizedTermslist = new ArrayList<String>(); 
 

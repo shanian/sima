@@ -20,6 +20,7 @@ public class TfIdfMain {
 
     public static void main(String args[]) throws FileNotFoundException, IOException, ParserConfigurationException, SAXException
     {
+    	// this is the an example for finding similar stories to EJS-163.
         DocumentParser dp = new DocumentParser();
         TfIdf tfidf=new TfIdf();
         CosineSimilarity cs= new CosineSimilarity();

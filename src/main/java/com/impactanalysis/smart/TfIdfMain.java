@@ -7,7 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-public class TfIdfMain {
+ public class TfIdfMain {
     
     /**
      * Main method
@@ -18,9 +18,12 @@ public class TfIdfMain {
      * @throws ParserConfigurationException 
      */
 
-    public static void main(String args[]) throws FileNotFoundException, IOException, ParserConfigurationException, SAXException
+  public static void main(String args[]) throws FileNotFoundException, IOException, ParserConfigurationException, SAXException
+    
+    
     {
-    	// this is the an example for finding similar stories to EJS-163.
+    	// this is an example for finding similar stories to EJS-163.
+    	
         DocumentParser dp = new DocumentParser();
         TfIdf tfidf=new TfIdf();
         CosineSimilarity cs= new CosineSimilarity();
@@ -30,6 +33,5 @@ public class TfIdfMain {
         cs.getCosineSimilarity("EJS-163", dp.getJiraStoryNumbers(), tfidf.getTfidfDocsVector());
                
     }
-   
-    
+      
 }

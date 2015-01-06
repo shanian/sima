@@ -25,6 +25,9 @@ public class DocumentParser {
 	private List<String> jiraStoryNumbers = new ArrayList<String>(); //to hold all story numbers
 	private Set<String> stopwords=new HashSet<String>(); //to hold stop words 
 	private HashMap<String, String> jiraStory = new HashMap<String, String>(); // to hold each story
+	
+	private HashMap<String, String> jiraStoryTitle = new HashMap<String, String>(); // to hold each story
+	
 	private HashMap<String, String> jiraStoryComments = new HashMap<String, String>(); // to hold each story comments in order to extract the test cases from it
 
 	private HashMap<String,ArrayList<String>> jiraStoryUpdatedTestCases = new HashMap<String, ArrayList<String>>(); // to hold each story updated test cases		
@@ -42,10 +45,18 @@ public class DocumentParser {
 	}
 
 
-	
-	
 	public List<String> getAllTerms() {
 		return allTerms;
+	}
+
+
+	public HashMap<String, String> getJiraStoryTitle() {
+		return jiraStoryTitle;
+	}
+
+
+	public void setJiraStoryTitle(HashMap<String, String> jiraStoryTitle) {
+		this.jiraStoryTitle = jiraStoryTitle;
 	}
 
 
@@ -130,6 +141,9 @@ public class DocumentParser {
 				//create story_content=title+description+acceptance creteria
 				key=eElement.getElementsByTagName("key").item(0).getTextContent();
 				story_content=eElement.getElementsByTagName("title").item(0).getTextContent();
+				
+				jiraStoryTitle.put(key, story_content);
+				
 				story_content=story_content+eElement.getElementsByTagName("description").item(0).getTextContent();
 				story_content=story_content+eElement.getElementsByTagName("summary").item(0).getTextContent();
 
@@ -164,10 +178,6 @@ public class DocumentParser {
 				}
 
 				jiraStoryComments.put(key, story_comments);
-
-
-
-
 			}//	if (nNode.getNodeType()== Node.ELEMENT_NODE) 
 
 
@@ -183,9 +193,9 @@ public class DocumentParser {
 	}//end
 
 	public void extractUpdatedTestCases(){
-		
+
 		//Assuming that the path corresponding each test case is starting with "Test:" or "Suite:"
-		
+
 		Iterator<?> it = jiraStoryComments.entrySet().iterator();
 
 		while (it.hasNext()) {
@@ -195,7 +205,7 @@ public class DocumentParser {
 			for (int i=0;i<testcases.length;i++){
 				if (testcases[i].contains("Test:")||testcases[i].contains("Suite:")){
 
-					testcaseslist.add(testcases[i].replaceAll("Test:", "").replaceAll("Suite:", "").replaceAll("[<p>||</p>||<br>||<br/>||<a>||</a>]", ""));
+					testcaseslist.add(testcases[i].replaceAll("Test:", "").replaceAll("Suite:", "").replaceAll("<[^>]*>", ""));
 				}//if
 
 			}//for
@@ -205,6 +215,8 @@ public class DocumentParser {
 			it.remove(); // avoids a ConcurrentModificationException
 		}//while
 
+	
+		
 	}
 	public void tokenizedJirastories(){
 		Iterator<?> it = jiraStory.entrySet().iterator();

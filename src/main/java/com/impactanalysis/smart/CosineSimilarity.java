@@ -6,9 +6,6 @@ import java.util.List;
 public class CosineSimilarity {
 	
 	private HashMap<String, Double> cosinSimilarityValue = new HashMap<String, Double>(); // to hold similaity value
-
-	
-	
 	public HashMap<String, Double> getCosinSimilarityValue() {
 		return cosinSimilarityValue;
 	}
@@ -82,7 +79,8 @@ public class CosineSimilarity {
 			}
 
 		}//else
-	}
-
+		
+			}
+	
 }	
 

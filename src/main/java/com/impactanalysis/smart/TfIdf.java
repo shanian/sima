@@ -9,7 +9,7 @@ public class TfIdf {
 	private Integer [] allTermsOccuredNumbers;
 	private List<double[]> tfidfDocsVector = new ArrayList<double[]>();
 
-		
+
 	public Integer[] getAllTermsOccuredNumbers() {
 		return allTermsOccuredNumbers;
 	}

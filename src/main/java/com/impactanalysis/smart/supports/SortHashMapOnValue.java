@@ -1,5 +1,6 @@
 package com.impactanalysis.smart.supports;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -38,13 +39,16 @@ public class SortHashMapOnValue {
 	// print the first (endElementIndex-startElementIndex) elements of the map
 	// to print the entire hashMap startElementIndex=0 and endElementIndex=map.size()-1 
 	
-	public static void printHashMap(Map<String, Double> map,int startElementIndex, int endElementIndex) {
+	public static void printHashMap(Map<String, Double> sortedSimilaityValues ,HashMap<String, ArrayList<String>> jiraStoryUpdatedTestCases,int startElementIndex, int endElementIndex) {
 		int count= endElementIndex-startElementIndex;
 		if (count>=0){
 			int i=startElementIndex;
-			for (Map.Entry<String, Double> entry : map.entrySet()) {
+			for (Map.Entry<String, Double> entry : sortedSimilaityValues.entrySet()) {
 			System.out.println(entry.getKey() 
-                                      + " " + entry.getValue());
+                                      + "= " + entry.getValue());
+			
+			System.out.println("recomended test cases"+jiraStoryUpdatedTestCases.get(entry.getKey()));
+			
 			i++;
 			if (i>endElementIndex) break;
 		}
@@ -52,7 +56,7 @@ public class SortHashMapOnValue {
 		}//if
 		
 		else {
-			System.out.println("endElementIndex should be greater equal than endElementIndex.");
+			System.out.println("endElementIndex should be greater equal than startElementIndex.");
 		}
 	}
 	

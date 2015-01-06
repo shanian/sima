@@ -2,6 +2,7 @@ package com.impactanalysis.smart;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -41,9 +42,7 @@ import com.impactanalysis.smart.supports.SortHashMapOnValue;
 		   }
 		   		   
 		   newStory=args[1];
-		  
-		  
-		   
+		  	   
 	   }
 	   
 	   else if (args.length ==0) {
@@ -59,8 +58,10 @@ import com.impactanalysis.smart.supports.SortHashMapOnValue;
         dp.extractJiraStories(storiesFile);
         tfidf.tfIdfCalculator(dp.getJiraStoryNumbers(), dp.getAllTerms(), dp.getTokenizedjiraStory());
         cs.getCosineSimilarity(newStory, dp.getJiraStoryNumbers(), tfidf.getTfidfDocsVector());
-        SortHashMapOnValue.printHashMap(SortHashMapOnValue.sortByComparator(cs.getCosinSimilarityValue()), 0, 4);
+        HashMap<String, Double> sortedSimilarityValues = SortHashMapOnValue.sortByComparator(cs.getCosinSimilarityValue());
         
+       // SortHashMapOnValue.printHashMap(sortedSimilarityValues, 0,sortedSimilarityValues.size()-1);
+        SortHashMapOnValue.printHashMap(sortedSimilarityValues,dp.getJiraStoryUpdatedTestCases() ,0,10);
         
     }
       

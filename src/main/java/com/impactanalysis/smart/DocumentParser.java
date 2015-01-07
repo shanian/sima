@@ -19,15 +19,20 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+/**
+ * @author sara_shanian
+ * This the just a POC. The parser needs to be generalized.
+ *
+ */
 public class DocumentParser {
 
 	private List<String> allTerms = new ArrayList<String>(); //to hold all terms
 	private List<String> jiraStoryNumbers = new ArrayList<String>(); //to hold all story numbers
 	private Set<String> stopwords=new HashSet<String>(); //to hold stop words 
 	private HashMap<String, String> jiraStory = new HashMap<String, String>(); // to hold each story
-	
+
 	private HashMap<String, String> jiraStoryTitle = new HashMap<String, String>(); // to hold each story
-	
+
 	private HashMap<String, String> jiraStoryComments = new HashMap<String, String>(); // to hold each story comments in order to extract the test cases from it
 
 	private HashMap<String,ArrayList<String>> jiraStoryUpdatedTestCases = new HashMap<String, ArrayList<String>>(); // to hold each story updated test cases		
@@ -115,7 +120,6 @@ public class DocumentParser {
 	 * @throws SAXException 
 	 */
 	public void extractJiraStories(String filePath) throws IOException, ParserConfigurationException, SAXException{
-
 		File fXmlFile = new File(filePath);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -128,24 +132,25 @@ public class DocumentParser {
 
 		for (int temp = 0; temp < nList.getLength(); temp++) {
 
-			String story_content="";
-			String story_comments ="";
+			String storyContent="";
+			String storyComments ="";
+			String updatedTestCases ="";
+
 			String key="";
 			Node nNode = nList.item(temp);
 
-			//	System.out.println("\nCurrent Element :" + nNode.getNodeName());
 
 			if (nNode.getNodeType()== Node.ELEMENT_NODE) {
 
 				Element eElement = (Element) nNode;
-				//create story_content=title+description+acceptance creteria
+				//create story_content=title+description+acceptance criteria
 				key=eElement.getElementsByTagName("key").item(0).getTextContent();
-				story_content=eElement.getElementsByTagName("title").item(0).getTextContent();
-				
-				jiraStoryTitle.put(key, story_content);
-				
-				story_content=story_content+eElement.getElementsByTagName("description").item(0).getTextContent();
-				story_content=story_content+eElement.getElementsByTagName("summary").item(0).getTextContent();
+				storyContent=eElement.getElementsByTagName("title").item(0).getTextContent();
+
+				jiraStoryTitle.put(key, storyContent);
+
+				storyContent=storyContent+eElement.getElementsByTagName("description").item(0).getTextContent();
+				storyContent=storyContent+eElement.getElementsByTagName("summary").item(0).getTextContent();
 
 				NodeList nList2=eElement.getElementsByTagName("customfields");
 				Node nNode2 = nList2.item(0);
@@ -156,28 +161,30 @@ public class DocumentParser {
 
 					if (eElement2.getElementsByTagName("customfieldname").item(0).getTextContent().equalsIgnoreCase("Acceptance criteria")){
 
-						story_content=story_content+ eElement2.getElementsByTagName("customfieldvalues").item(0).getTextContent();
+						storyContent=storyContent+ eElement2.getElementsByTagName("customfieldvalues").item(0).getTextContent();
 					}
 				}		
 
-				jiraStory.put(key, story_content);
+				jiraStory.put(key, storyContent);
 				jiraStoryNumbers.add(key);
+
 
 				//extract comments containing the test case world
 				for (int i=0;i<eElement.getElementsByTagName("comments").getLength();i++) {
+					//					story_comments=story_comments+ eElement.getElementsByTagName("comments").item(i).getTextContent();
 
 					NodeList nListComments=(NodeList) eElement.getElementsByTagName("comments").item(0);
 					Element commentElement = (Element) nListComments;
 					for (int j=0;j<commentElement.getElementsByTagName("comment").getLength();j++){
 
 						if (eElement.getElementsByTagName("comment").item(j).getTextContent().contains("test case") ||eElement.getElementsByTagName("comment").item(j).getTextContent().contains("test cases") ){
-							story_comments=story_comments+ eElement.getElementsByTagName("comment").item(j).getTextContent();
+							storyComments=storyComments+ eElement.getElementsByTagName("comment").item(j).getTextContent();
 						}
 					}
 
 				}
 
-				jiraStoryComments.put(key, story_comments);
+				jiraStoryComments.put(key, storyComments);
 			}//	if (nNode.getNodeType()== Node.ELEMENT_NODE) 
 
 
@@ -186,9 +193,8 @@ public class DocumentParser {
 
 		//tokenized the extracted jira stories
 		tokenizedJirastories();
+		//extract the list of updated test cases for each story
 		extractUpdatedTestCases();
-
-		//System.out.println(jiraStoryComments.get("EJS-267"));
 
 	}//end
 
@@ -215,8 +221,6 @@ public class DocumentParser {
 			it.remove(); // avoids a ConcurrentModificationException
 		}//while
 
-	
-		
 	}
 	public void tokenizedJirastories(){
 		Iterator<?> it = jiraStory.entrySet().iterator();

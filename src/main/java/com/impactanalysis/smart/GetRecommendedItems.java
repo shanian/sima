@@ -10,8 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author sara_shanian
+ *
+ */
 public class GetRecommendedItems {
-
 
 
 	private static List<String> recommendedLists=new ArrayList<String>(); 
@@ -52,7 +55,7 @@ public class GetRecommendedItems {
 			for (Map.Entry<String, Double> entry : sortedSimilaityValues.entrySet()) {
 
 			//System.out.println(entry.getKey() 
-				//		+ "= " + entry.getValue());
+				//	+ "= " + entry.getValue());
 				
 
 				for (int j=0;j<jiraStoryUpdatedTestCases.get(entry.getKey()).size();j++){
@@ -94,7 +97,7 @@ public class GetRecommendedItems {
 			
 			
 			for (int i=0;i<recommendedLists.size();i++){
-				if ((recommendedsimilarityLists.get(i)>=0.60) ){
+				if ((recommendedsimilarityLists.get(i)>=0.60)){
 					recommendationFound=true;
 					System.out.println("(1) " +recommendedLists.get(i));
 				}
@@ -125,11 +128,5 @@ public class GetRecommendedItems {
 
 
 	}
-
-
-
-
-
-
 
 }

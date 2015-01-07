@@ -58,7 +58,6 @@ public class GetRecommendedItems {
 				for (int j=0;j<jiraStoryUpdatedTestCases.get(entry.getKey()).size();j++){
 					
 					if (!recommendedLists.contains(jiraStoryUpdatedTestCases.get(entry.getKey()).get(j))){
-						System.out.println(jiraStoryUpdatedTestCases.get(entry.getKey()).get(j));
 						recommendedLists.add(jiraStoryUpdatedTestCases.get(entry.getKey()).get(j));
 						recommendedsimilarityLists.add(entry.getValue());
 					}
@@ -95,7 +94,7 @@ public class GetRecommendedItems {
 			
 			
 			for (int i=0;i<recommendedLists.size();i++){
-				if ((recommendedsimilarityLists.get(i)>=0.60) && (recommendedsimilarityLists.get(i)<1) ){
+				if ((recommendedsimilarityLists.get(i)>=0.60) ){
 					recommendationFound=true;
 					System.out.println("(1) " +recommendedLists.get(i));
 				}

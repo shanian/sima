@@ -9,7 +9,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 
- public class TfIdfMain {
+ public class TestCaseRecommender {
     
     /**
      * Main method

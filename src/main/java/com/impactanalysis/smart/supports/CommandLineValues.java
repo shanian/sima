@@ -1,5 +1,4 @@
 package com.impactanalysis.smart.supports;
-
 import java.io.File;
 
 import org.kohsuke.args4j.Option;
